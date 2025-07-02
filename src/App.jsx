@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/Signup.jsx";
+import Home from "./pages/Homeee.jsx";
+import Account from "./pages/Account.jsx";
+
+export default function App() {
+  const [user, setUser] = useState(null);
+
+
+  const handleLogin = (userData) => setUser(userData);
+
+  const handleLogout = () => setUser(null);
+
+  function ProtectedRoute({ children }) {
+    if (!user) {
+      // if not logged in, redirect to login
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="min-h-screen bg-green-100 flex items-center justify-center">
 
-export default App
+    <Router>
+      <Routes>
+        <Route
+          path="/login"
+          element={<Login onLogin={handleLogin} />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUp />}
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Account user={user} />
+            </ProtectedRoute>
+          }
+        />
+        {/* Redirect unknown routes to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </Router></div>
+  );
+}
