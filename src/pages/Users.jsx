@@ -26,7 +26,7 @@ export default function AdminUsers({ user }) {
                 ← Back
             </button>
 
-            <h2 className="text-2xl font-bold mb-4">All Users</h2>
+            <h2 className="text-2xl font-bold mb-4 text-black">All Users</h2>
             <table className="min-w-full bg-white shadow rounded text-black">
                 <thead className="bg-gray-200">
                     <tr>

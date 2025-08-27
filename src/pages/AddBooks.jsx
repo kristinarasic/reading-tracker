@@ -33,7 +33,7 @@ export default function AddBooks() {
             pages: Number(bookData.pages),
         };
 
-        fetch("http://localhost:400/books", {
+        fetch("http://localhost:4001/books", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newBook),
@@ -44,7 +44,7 @@ export default function AddBooks() {
             })
             .then(() => {
                 alert("Book added successfully!");
-                window.history.back(); 
+                window.history.back();
             })
             .catch((err) => console.error(err));
     };

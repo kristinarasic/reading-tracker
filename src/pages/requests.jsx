@@ -70,7 +70,7 @@ export default function ReviewRequests({ user }) {
             if (nextIndex < requests.length) {
                 setCurrentIndex(nextIndex);
             } else {
-                setRequests([]); 
+                setRequests([]);
             }
         } catch (error) {
             console.error("Error processing request:", error);
@@ -91,7 +91,7 @@ export default function ReviewRequests({ user }) {
                     ← Back
                 </button>
 
-                <h1 className="text-2xl font-bold mb-6 text-center">
+                <h1 className="text-2xl font-bold mb-6 text-center text-black">
                     Review Book Requests
                 </h1>
 

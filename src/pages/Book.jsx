@@ -131,7 +131,7 @@ export default function Book({ user, onUpdate }) {
                             {userBookStatus ? (
                                 <div className="relative flex items-center gap-2">
                                     <button
-                                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 font-semibold"
+                                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 font-semibold text-black"
                                         onClick={() => setShowStatusDropdown(!showStatusDropdown)}
                                     >
                                         {statusLabels[userBookStatus]}
@@ -144,7 +144,7 @@ export default function Book({ user, onUpdate }) {
                                     </button>
 
                                     {showStatusDropdown && (
-                                        <div className="absolute top-full mt-1 bg-white border rounded shadow w-40 z-10">
+                                        <div className="absolute top-full mt-1 bg-white border rounded shadow w-40 z-10 text-black">
                                             {Object.entries(statusLabels).map(([key, label]) => (
                                                 <div
                                                     key={key}
@@ -183,7 +183,7 @@ export default function Book({ user, onUpdate }) {
                     </div>
                 </div>
 
-                <h2 className="text-xl font-semibold mt-12 mb-4 w-full">
+                <h2 className="text-xl font-semibold mt-12 mb-4 w-full text-black">
                     More books in {book.genre}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">

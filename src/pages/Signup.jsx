@@ -77,7 +77,7 @@ export default function Signup() {
                         placeholder="Username"
                         value={form.username}
                         onChange={handleChange}
-                        className="border px-2 py-1 rounded text-black"
+                        className="border px-2 py-1 rounded text-white"
                         required
                     />
                     <input
@@ -86,7 +86,7 @@ export default function Signup() {
                         placeholder="Email"
                         value={form.email}
                         onChange={handleChange}
-                        className="border px-2 py-1 rounded text-black"
+                        className="border px-2 py-1 rounded text-white"
                         required
                     />
                     <input
@@ -95,7 +95,7 @@ export default function Signup() {
                         placeholder="Password"
                         value={form.password}
                         onChange={handleChange}
-                        className="border px-2 py-1 rounded text-black"
+                        className="border px-2 py-1 rounded text-white"
                         required
                     />
                     <input
@@ -104,14 +104,14 @@ export default function Signup() {
                         placeholder="Age"
                         value={form.age}
                         onChange={handleChange}
-                        className="border px-2 py-1 rounded text-black"
+                        className="border px-2 py-1 rounded text-white"
                         required
                     />
                     <select
                         name="gender"
                         value={form.gender}
                         onChange={handleChange}
-                        className="border px-2 py-1 rounded text-black"
+                        className="border px-2 py-1 rounded text-white"
                         required
                     >
                         <option value="">Select Gender</option>

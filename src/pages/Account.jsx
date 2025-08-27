@@ -63,7 +63,7 @@ export default function Account({ user, onUpdate, onLogout }) {
             const updatedUser = await res.json();
             console.log("User updated:", updatedUser);
             setCurrentUser(updatedUser);
-            localStorage.setItem("user", JSON.stringify(updatedUser)); 
+            localStorage.setItem("user", JSON.stringify(updatedUser));
             if (onUpdate) onUpdate(updatedUser);
             setEditingFields({});
             alert("User updated successfully!");
@@ -99,7 +99,7 @@ export default function Account({ user, onUpdate, onLogout }) {
                                         name="username"
                                         value={formData.username}
                                         onChange={handleChange}
-                                        className="border rounded px-2 py-1 text-black"
+                                        className="border rounded px-2 py-1 text-white"
                                     />
                                 ) : (
                                     <span>{formData.username}</span>
@@ -119,7 +119,7 @@ export default function Account({ user, onUpdate, onLogout }) {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="border rounded px-2 py-1 text-black"
+                                        className="border rounded px-2 py-1 text-white"
                                     />
                                 ) : (
                                     <span>{formData.email}</span>
@@ -139,7 +139,7 @@ export default function Account({ user, onUpdate, onLogout }) {
                                         name="age"
                                         value={formData.age}
                                         onChange={handleChange}
-                                        className="border rounded px-2 py-1 text-black"
+                                        className="border rounded px-2 py-1 text-white"
                                     />
                                 ) : (
                                     <span>{formData.age}</span>
@@ -158,7 +158,7 @@ export default function Account({ user, onUpdate, onLogout }) {
                                         name="gender"
                                         value={formData.gender}
                                         onChange={handleChange}
-                                        className="border rounded px-2 py-1 text-black"
+                                        className="border rounded px-2 py-1 text-white"
                                     >
                                         <option value="">Select</option>
                                         <option value="female">Female</option>
@@ -191,7 +191,7 @@ export default function Account({ user, onUpdate, onLogout }) {
                                         value={formData.password}
                                         onChange={handleChange}
                                         placeholder="New password"
-                                        className="border rounded px-2 py-1 text-black"
+                                        className="border rounded px-2 py-1 text-white"
                                     />
                                 ) : (
                                     <span>••••••••</span>

@@ -46,12 +46,12 @@ export default function AdminBooks() {
                 ← Back
             </button>
 
-            <h2 className="text-2xl font-bold mb-4">Manage Books</h2>
+            <h2 className="text-2xl font-bold mb-4 text-black">Alter Books</h2>
 
             <select
                 value={selectedBookId}
                 onChange={handleSelect}
-                className="border p-2 mb-4 rounded w-80"
+                className="border p-2 mb-4 rounded w-80 bg-gray-800 text-white"
             >
                 <option value="">Select a book</option>
                 {books.map((book) => (
@@ -63,53 +63,53 @@ export default function AdminBooks() {
 
             {bookData && (
                 <fieldset className="border p-4 rounded w-96">
-                    <legend className="font-bold mb-2">Edit Book</legend>
+                    <legend className="font-bold mb-2 text-black">Edit Book</legend>
                     <div className="flex flex-col gap-2">
-                        <label>
+                        <label className="flex flex-col text-black">
                             Title:
                             <input
                                 type="text"
                                 name="title"
                                 value={bookData.title}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Author:
                             <input
                                 type="text"
                                 name="author"
                                 value={bookData.author}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Genre:
                             <input
                                 type="text"
                                 name="genre"
                                 value={bookData.genre}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Year:
                             <input
                                 type="number"
                                 name="year"
                                 value={bookData.year}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Rating:
                             <input
                                 type="number"
@@ -118,28 +118,28 @@ export default function AdminBooks() {
                                 min="1"
                                 max="5"
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Pages:
                             <input
                                 type="number"
                                 name="pages"
                                 value={bookData.pages}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                             />
                         </label>
 
-                        <label>
+                        <label className="flex flex-col text-black">
                             Description:
                             <textarea
                                 name="description"
                                 value={bookData.description}
                                 onChange={handleChange}
-                                className="border px-2 py-1 rounded w-full"
+                                className="border px-2 py-1 rounded w-full text-white bg-gray-800 placeholder-gray-400"
                                 rows="4"
                             />
                         </label>
