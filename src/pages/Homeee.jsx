@@ -9,7 +9,7 @@ export default function Home({ user, onLogout }) {
   useEffect(() => {
     console.log("User prop:", user);
   }, [user]);
-  
+
 
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,8 +26,9 @@ export default function Home({ user, onLogout }) {
         setTopBooks(sorted.slice(0, 3));
 
         if (user.currentlyReading && user.currentlyReading.length > 0) {
-          const bookId = user.currentlyReading[0];
+          const bookId = user.currentlyReading[0].bookId;
           const book = data.find(b => b.id === bookId);
+
           console.log("Looking for bookId:", bookId, "Found:", book);
 
           if (book) setCurrentBook(book);
@@ -35,7 +36,8 @@ export default function Home({ user, onLogout }) {
       })
       .catch(err => console.error(err));
   }, [user]);
-  
+
+
 
   const handleBookClick = (bookId) => {
     navigate(`/book/${bookId}`);
@@ -44,8 +46,7 @@ export default function Home({ user, onLogout }) {
   return (
     <div className="p-0">
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <Sidebar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
+      <Sidebar menuOpen={menuOpen} setMenuOpen={setMenuOpen} user={user} />
       <div className="pt-16 px-4 flex flex-col items-center">
         <h1 className="text-black text-2xl font-bold mb-8">
           Welcome, {user.username}!
