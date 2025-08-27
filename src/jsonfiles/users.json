@@ -1,22 +1,183 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1111",
       "username": "tina",
       "email": "tina@example.com",
-      "password": "1234"
+      "password": "1234",
+      "age": 25,
+      "gender": "female",
+      "role": "user",
+      "currentlyReading": [
+        {
+          "bookId": "1",
+          "startedAt": "2025-08-01T12:00:00Z"
+        }
+      ],
+      "wantToRead": [
+        {
+          "bookId": "2",
+          "addedAt": "2025-08-10T09:00:00Z"
+        },
+        {
+          "bookId": "3",
+          "addedAt": "2025-08-15T10:30:00Z"
+        }
+      ],
+      "finished": [
+        {
+          "bookId": "4",
+          "finishedAt": "2025-07-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "4862",
-      "username": "user1",
+      "username": "userr1",
       "email": "user1@gmail.com",
-      "password": "user1"
+      "password": "user1",
+      "age": "24",
+      "gender": "female",
+      "role": "user",
+      "currentlyReading": [],
+      "wantToRead": [
+        {
+          "bookId": "2",
+          "addedAt": "2025-08-27T02:13:11.832Z"
+        },
+        {
+          "bookId": "1756266744741",
+          "addedAt": "2025-08-27T03:57:04.634Z"
+        },
+        {
+          "bookId": "1",
+          "addedAt": "2025-08-27T04:16:01.327Z"
+        }
+      ],
+      "finished": [
+        {
+          "bookId": "9",
+          "finishedAt": "2025-08-27T02:29:56.556Z"
+        }
+      ]
     },
     {
       "id": "62f6",
       "username": "user2",
       "email": "user2@gmail.com",
-      "password": "user2"
+      "password": "user2",
+      "age": 22,
+      "gender": "female",
+      "role": "user",
+      "currentlyReading": [
+        {
+          "bookId": "2",
+          "startedAt": "2025-08-05T11:00:00Z"
+        }
+      ],
+      "wantToRead": [
+        {
+          "bookId": "5",
+          "addedAt": "2025-08-12T08:15:00Z"
+        },
+        {
+          "bookId": "6",
+          "addedAt": "2025-08-18T14:20:00Z"
+        }
+      ],
+      "finished": [
+        {
+          "bookId": "1",
+          "finishedAt": "2025-07-25T13:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "84b2",
+      "username": "admin",
+      "email": "viktor@gmail.com",
+      "password": "admin",
+      "age": 28,
+      "gender": "male",
+      "role": "admin",
+      "currentlyReading": [],
+      "wantToRead": [],
+      "finished": []
+    },
+    {
+      "id": "b3d9",
+      "username": "kristina",
+      "email": "kristina.rasicccc@gmail.com",
+      "password": "pssw",
+      "age": 21,
+      "gender": "female",
+      "role": "user",
+      "currentlyReading": [
+        {
+          "bookId": "4",
+          "startedAt": "2025-08-22T15:00:00Z"
+        }
+      ],
+      "wantToRead": [
+        {
+          "bookId": "1",
+          "addedAt": "2025-08-02T12:00:00Z"
+        },
+        {
+          "bookId": "2",
+          "addedAt": "2025-08-12T09:45:00Z"
+        }
+      ],
+      "finished": [
+        {
+          "bookId": "3",
+          "finishedAt": "2025-07-30T17:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "a3eb",
+      "username": "test",
+      "email": "test@example.com",
+      "password": "test",
+      "age": 40,
+      "gender": "male",
+      "role": "user",
+      "currentlyReading": [],
+      "wantToRead": [
+        {
+          "bookId": "1",
+          "addedAt": "2025-08-05T10:00:00Z"
+        }
+      ],
+      "finished": []
+    },
+    {
+      "id": "ab32",
+      "username": "test11",
+      "email": "test1@example.com",
+      "password": "test",
+      "age": 43,
+      "gender": "female",
+      "role": "user",
+      "currentlyReading": [
+        {
+          "bookId": "14",
+          "startedAt": "2025-08-27T01:55:40.727Z"
+        }
+      ],
+      "wantToRead": [
+        {
+          "bookId": "13",
+          "addedAt": "2025-08-27T01:55:45.455Z"
+        }
+      ],
+      "finished": [
+        {
+          "bookId": "1",
+          "finishedAt": "2025-08-27T01:55:29.363Z"
+        }
+      ]
     }
   ]
 }

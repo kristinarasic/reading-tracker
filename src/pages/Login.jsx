@@ -1,88 +1,75 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-
-const API_URL = "http://localhost:4000/users";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
-    const [form, setForm] = useState({ username: "", password: "" });
-    const [error, setError] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-        if (error) setError("");
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await fetch(API_URL);
-            if (!res.ok) {
-                throw new Error("Failed to fetch users");
-            }
-
+            const res = await fetch(`http://localhost:4000/users?username=${username}`);
             const users = await res.json();
-            const user = users.find(
-                (u) => u.username === form.username && u.password === form.password
-            );
 
-            if (!user) {
-                setError("Invalid username or password");
-                return;
+            const user = users.find((u) => u.password === password);
+
+            if (user) {
+                onLogin(user);
+                localStorage.setItem("user", JSON.stringify(user));
+
+                if (user.role === "admin") {
+                    navigate("/admin");
+                } else {
+                    navigate("/home"); 
+                }
+            } else {
+                alert("Invalid username or password");
             }
-
-            onLogin(user);             
-            navigate("/home");        
-        } catch (err) {
-            console.error(err);
-            setError("Login failed. Please try again later.");
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Something went wrong. Please try again.");
         }
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="max-w-sm mx-auto p-8 bg-green-50 rounded-lg shadow-md mt-20"
-        >
-            <h1 className="text-4xl mb-8 text-center font-extrabold text-green-800">
-                Reading Tracker
-            </h1>
+        <div className="flex justify-center items-center min-h-screen bg-100">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80 p-6 bg-white rounded shadow">
+                <h1 className="text-2xl font-bold text-center mb-4 text-black">
+                    Welcome to Reading Tracker
+                </h1>
 
-            <input
-                name="username"
-                placeholder="Username"
-                value={form.username}
-                onChange={handleChange}
-                className="border border-green-300 rounded-md p-3 mb-4 w-full placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                required
-            />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="border px-2 py-1 rounded"
+                />
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-                className="border border-green-300 rounded-md p-3 mb-4 w-full placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                required
-            />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border px-2 py-1 rounded"
+                />
 
-            {error && <p className="text-red-600 mb-4 text-sm">{error}</p>}
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                    Login
+                </button>
 
-            <button
-                type="submit"
-                className="bg-green-600 hover:bg-green-700 transition-colors text-white font-semibold py-3 rounded-md w-full shadow"
-            >
-                Login
-            </button>
-
-            <p className="mt-6 text-center text-green-700 text-sm">
-                Don’t have an account?{" "}
-                <Link to="/signup" className="underline hover:text-green-900">
-                    Click here to sign up
-                </Link>
-            </p>
-        </form>
+                <p className="text-center text-sm mt-2 text-black">
+                    Don't have an account?{" "}
+                    <a href="/signup" className="font-semibold hover:underline">
+                        Sign Up
+                    </a>
+                </p>
+            </form>
+        </div>
     );
 }

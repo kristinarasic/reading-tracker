@@ -1,0 +1,474 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "The Silent Patient",
+      "author": "Alex Michaelides",
+      "genre": "Thriller",
+      "year": 2019,
+      "rating": 5,
+      "pages": 336,
+      "description": "A gripping psychological thriller about a woman who suddenly stops speaking after allegedly murdering her husband. A psychotherapist becomes obsessed with uncovering her secrets. Twists and suspense keep the reader guessing until the final page. It's a dark exploration of trauma, love, and obsession."
+    },
+    {
+      "id": "2",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "genre": "Self-help",
+      "year": 2018,
+      "rating": 4,
+      "pages": 320,
+      "description": "An insightful guide on how small habits can lead to remarkable results. James Clear explains strategies for building good habits and breaking bad ones. Practical and backed by science, it offers tools for lasting personal transformation. It's motivational and easy to implement in daily life."
+    },
+    {
+      "id": "3",
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "genre": "Science Fiction",
+      "year": 2021,
+      "rating": 5,
+      "pages": 496,
+      "description": "A thrilling space adventure following a lone astronaut on a desperate mission to save humanity. Packed with scientific problem-solving, unexpected friendships, and tension-filled moments. Andy Weir blends humor, suspense, and technical detail seamlessly. It's a story of resilience and ingenuity in the face of impossible odds."
+    },
+    {
+      "id": "4",
+      "title": "The Seven Husbands of Evelyn Hugo",
+      "author": "Taylor Jenkins Reid",
+      "genre": "Romance",
+      "year": 2017,
+      "rating": 5,
+      "pages": 400,
+      "description": "The story of a reclusive Hollywood legend who recounts her glamorous life to a young journalist. Each husband represents a chapter of love, ambition, and heartbreak. The novel explores identity, sacrifice, and the cost of fame. It's an emotional journey that captivates with romance and personal revelation."
+    },
+    {
+      "id": "5",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "genre": "Memoir",
+      "year": 2018,
+      "rating": 4,
+      "pages": 352,
+      "description": "A powerful memoir of a young woman who grows up in a strict and isolated household. Tara Westover battles family expectations and lack of formal education to carve her own path. It's a story of determination, resilience, and self-discovery. The book highlights the transformative power of learning and personal courage."
+    },
+    {
+      "id": "6",
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "genre": "Science Fiction",
+      "year": 1965,
+      "rating": 5,
+      "pages": 688,
+      "description": "An epic tale of politics, religion, and survival set on the desert planet of Arrakis. Paul Atreides must navigate power struggles and fulfill a mysterious destiny. Frank Herbert creates a rich, immersive universe filled with intrigue and adventure. It's a masterclass in world-building and storytelling."
+    },
+    {
+      "id": "7",
+      "title": "It Ends With Us",
+      "author": "Colleen Hoover",
+      "genre": "Romance",
+      "year": 2016,
+      "rating": 3,
+      "pages": 384,
+      "description": "A moving story about love, resilience, and making difficult choices. Lily navigates the complexities of an intense relationship while confronting painful truths. The novel explores themes of domestic abuse, strength, and personal growth. It's emotional, raw, and unforgettable."
+    },
+    {
+      "id": "8",
+      "title": "The Pragmatic Programmer",
+      "author": "Andrew Hunt & David Thomas",
+      "genre": "Programming",
+      "year": 1999,
+      "rating": 5,
+      "pages": 352,
+      "description": "A classic guide for software developers, offering practical advice on coding, debugging, and career growth. It emphasizes adaptable, flexible thinking and continuous learning. Filled with tips, anecdotes, and insights from experienced programmers. It's a must-read for anyone serious about software development."
+    },
+    {
+      "id": "9",
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "genre": "Fantasy",
+      "year": 2020,
+      "rating": 4,
+      "pages": 304,
+      "description": "A magical library where every book represents a different life the protagonist could have lived. Nora explores alternate realities, learning about choices, regrets, and the meaning of life. It's a thought-provoking and heartwarming story. The novel blends fantasy and philosophy beautifully."
+    },
+    {
+      "id": "10",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "genre": "Classic",
+      "year": 1866,
+      "rating": 5,
+      "pages": 430,
+      "description": "A profound exploration of morality, guilt, and redemption. Raskolnikov, a poor student, commits a murder and struggles with his conscience. Dostoevsky delves deep into psychology and philosophy. It's a timeless masterpiece that examines human nature and ethical dilemmas."
+    },
+    {
+      "id": "11",
+      "title": "The Alchemist",
+      "author": "Paulo Coelho",
+      "genre": "Fiction",
+      "year": 1988,
+      "rating": 5,
+      "pages": 208,
+      "description": "A philosophical tale of a young shepherd named Santiago who dreams of finding treasure. Through his journey, he discovers the importance of listening to his heart and following his dreams. The novel is filled with wisdom, inspiration, and spirituality. It encourages readers to pursue their personal legend no matter the obstacles."
+    },
+    {
+      "id": "12",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "genre": "Fantasy",
+      "year": 1937,
+      "rating": 5,
+      "pages": 310,
+      "description": "The story of Bilbo Baggins, a hobbit who is reluctantly swept into an epic adventure. He encounters trolls, elves, and dragons while discovering his own courage. Tolkien creates a vivid fantasy world filled with imagination and wonder. It's a prelude to the Lord of the Rings series and a timeless classic."
+    },
+    {
+      "id": "13",
+      "title": "1984",
+      "author": "George Orwell",
+      "genre": "Dystopian",
+      "year": 1949,
+      "rating": 5,
+      "pages": 328,
+      "description": "A chilling dystopian novel depicting a totalitarian regime that monitors and controls every aspect of life. Winston Smith struggles with oppression, conformity, and the loss of individuality. Orwell examines political manipulation, surveillance, and truth. A timeless warning about the dangers of authoritarianism."
+    },
+    {
+      "id": "14",
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "genre": "Dystopian",
+      "year": 1932,
+      "rating": 4,
+      "pages": "290",
+      "description": "Set in a future society controlled by technology, conditioning, and consumerism. Individuals are engineered for specific roles, and emotions are suppressed. The novel explores freedom, individuality, and ethical dilemmas. It's a thought-provoking look at human progress and control."
+    },
+    {
+      "id": "15",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "genre": "Classic",
+      "year": 1960,
+      "rating": 5,
+      "pages": 336,
+      "description": "A powerful novel exploring racial injustice and moral growth in the American South. Scout Finch narrates her childhood, witnessing her father, Atticus, defend an innocent black man accused of rape. Themes of empathy, courage, and morality are central. It's a timeless and moving story about human decency and prejudice."
+    },
+    {
+      "id": "16",
+      "title": "The Catcher in the Rye",
+      "author": "J.D. Salinger",
+      "genre": "Classic",
+      "year": 1951,
+      "rating": 4,
+      "pages": 277,
+      "description": "A story following Holden Caulfield, a teenager navigating alienation, loss, and identity. His cynical, humorous voice captures adolescent confusion. Salinger examines themes of innocence, rebellion, and growing up. It's a landmark novel in modern American literature."
+    },
+    {
+      "id": "17",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "genre": "Non-fiction",
+      "year": 2011,
+      "rating": 5,
+      "pages": 498,
+      "description": "A sweeping exploration of the history of Homo sapiens, from hunter-gatherers to modern civilization. Harari examines culture, religion, science, and politics with insight and clarity. The book challenges readers to rethink their understanding of humanity. It's informative, engaging, and thought-provoking."
+    },
+    {
+      "id": "18",
+      "title": "Becoming",
+      "author": "Michelle Obama",
+      "genre": "Memoir",
+      "year": 2018,
+      "rating": "4",
+      "pages": 448,
+      "description": "The former First Lady shares her personal journey from childhood to the White House. Insights into family, education, and public life provide inspiration. Themes of resilience, empowerment, and identity resonate throughout. It's both intimate and motivational."
+    },
+    {
+      "id": "19",
+      "title": "The Subtle Art of Not Giving a F*ck",
+      "author": "Mark Manson",
+      "genre": "Self-help",
+      "year": 2016,
+      "rating": 4,
+      "pages": 224,
+      "description": "A counterintuitive approach to living a better life by focusing on what truly matters. Manson emphasizes honesty, responsibility, and prioritization. The book combines humor and practical advice. It's a modern self-help guide for realistic personal growth."
+    },
+    {
+      "id": "20",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "genre": "Psychology",
+      "year": 2011,
+      "rating": 5,
+      "pages": 499,
+      "description": "A landmark work exploring human thought processes. Kahneman explains the two systems of thinking: fast, intuitive thought versus slow, deliberate thought. The book examines cognitive biases, decision-making, and behavior. It's both insightful and influential in psychology and economics."
+    },
+    {
+      "id": "21",
+      "title": "Middlesex",
+      "author": "Jeffrey Eugenides",
+      "genre": "Fiction",
+      "year": 2002,
+      "rating": 5,
+      "pages": 529,
+      "description": "A multigenerational family saga exploring identity, gender, and history. The protagonist's journey is both personal and epic, blending myth and reality."
+    },
+    {
+      "id": "22",
+      "title": "The Road",
+      "author": "Cormac McCarthy",
+      "genre": "Dystopian",
+      "year": 2006,
+      "rating": 5,
+      "pages": 287,
+      "description": "A father and son journey through a post-apocalyptic world. Sparse prose conveys bleakness, love, and survival."
+    },
+    {
+      "id": "23",
+      "title": "Gone Girl",
+      "author": "Gillian Flynn",
+      "genre": "Thriller",
+      "year": 2012,
+      "rating": 5,
+      "pages": 422,
+      "description": "A psychological thriller exploring a complex marriage, secrets, and a mysterious disappearance. Twists keep readers guessing."
+    },
+    {
+      "id": "24",
+      "title": "The Girl on the Train",
+      "author": "Paula Hawkins",
+      "genre": "Thriller",
+      "year": 2015,
+      "rating": 4,
+      "pages": 395,
+      "description": "A psychological thriller following an unreliable narrator who becomes entangled in a missing persons investigation. Secrets and suspense drive the story."
+    },
+    {
+      "id": "25",
+      "title": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "genre": "Fantasy",
+      "year": 2011,
+      "rating": 5,
+      "pages": 387,
+      "description": "A magical competition between two young illusionists unfolds within a mysterious, wandering circus. Love and magic intertwine in a richly imaginative setting."
+    },
+    {
+      "id": "26",
+      "title": "A Promised Land",
+      "author": "Barack Obama",
+      "genre": "Memoir",
+      "year": 2020,
+      "rating": 5,
+      "pages": 768,
+      "description": "The former President reflects on his early political career, presidency, and the challenges of leadership. Insightful, personal, and engaging."
+    },
+    {
+      "id": "27",
+      "title": "Circe",
+      "author": "Madeline Miller",
+      "genre": "Fantasy",
+      "year": 2018,
+      "rating": 5,
+      "pages": 393,
+      "description": "A retelling of the story of Circe, the enchantress from Greek mythology, exploring power, identity, and transformation with poetic storytelling."
+    },
+    {
+      "id": "28",
+      "title": "Normal People",
+      "author": "Sally Rooney",
+      "genre": "Romance",
+      "year": 2018,
+      "rating": 4,
+      "pages": 266,
+      "description": "A story of love, friendship, and social class following two young people navigating a complex relationship through their formative years."
+    },
+    {
+      "id": "29",
+      "title": "Little Fires Everywhere",
+      "author": "Celeste Ng",
+      "genre": "Fiction",
+      "year": 2017,
+      "rating": 5,
+      "pages": 352,
+      "description": "A suburban community is shaken by secrets, motherhood, and privilege. Ng masterfully explores family dynamics and moral ambiguity."
+    },
+    {
+      "id": "30",
+      "title": "Where the Crawdads Sing",
+      "author": "Delia Owens",
+      "genre": "Mystery",
+      "year": 2018,
+      "rating": 5,
+      "pages": 384,
+      "description": "A murder mystery intertwined with a coming-of-age story in the marshlands. A tale of isolation, nature, and resilience."
+    },
+    {
+      "id": "31",
+      "title": "Educated Guess",
+      "author": "Liam Hart",
+      "genre": "Non-fiction",
+      "year": 2022,
+      "rating": 4,
+      "pages": 310,
+      "description": "An exploration of modern scientific approaches to problem-solving, with practical insights for curious readers."
+    },
+    {
+      "id": "32",
+      "title": "The Book Thief",
+      "author": "Markus Zusak",
+      "genre": "Historical Fiction",
+      "year": 2005,
+      "rating": 5,
+      "pages": 552,
+      "description": "Narrated by Death, a young girl steals books during WWII, discovering the power of words to sustain hope and humanity."
+    },
+    {
+      "id": "33",
+      "title": "A Man Called Ove",
+      "author": "Fredrik Backman",
+      "genre": "Fiction",
+      "year": 2012,
+      "rating": 5,
+      "pages": 337,
+      "description": "The story of a grumpy yet lovable man whose life changes after unexpected friendships. Warm, humorous, and heartening."
+    },
+    {
+      "id": "34",
+      "title": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "genre": "Dystopian",
+      "year": 1953,
+      "rating": 5,
+      "pages": 194,
+      "description": "A future society bans books and enforces censorship. A fireman begins to question his role and the cost of knowledge suppression."
+    },
+    {
+      "id": "35",
+      "title": "The Name of the Wind",
+      "author": "Patrick Rothfuss",
+      "genre": "Fantasy",
+      "year": 2007,
+      "rating": 5,
+      "pages": 662,
+      "description": "An epic tale of a gifted young man who grows to become a legendary figure. Magic, music, and storytelling interweave in a rich narrative."
+    },
+    {
+      "id": "36",
+      "title": "The Power of Habit",
+      "author": "Charles Duhigg",
+      "genre": "Self-help",
+      "year": 2012,
+      "rating": 4,
+      "pages": 371,
+      "description": "Explores the science of habit formation and provides strategies for transforming behavior in personal and professional life."
+    },
+    {
+      "id": "37",
+      "title": "Ready Player One",
+      "author": "Ernest Cline",
+      "genre": "Science Fiction",
+      "year": 2011,
+      "rating": 5,
+      "pages": 374,
+      "description": "A dystopian adventure set in a virtual reality universe, with pop culture references, puzzles, and high-stakes gaming."
+    },
+    {
+      "id": "38",
+      "title": "Educating the Mind",
+      "author": "Clara Benson",
+      "genre": "Non-fiction",
+      "year": 2023,
+      "rating": 4,
+      "pages": 290,
+      "description": "Explores modern educational philosophies and techniques for lifelong learning."
+    },
+    {
+      "id": "39",
+      "title": "The Priory of the Orange Tree",
+      "author": "Samantha Shannon",
+      "genre": "Fantasy",
+      "year": 2019,
+      "rating": 5,
+      "pages": 848,
+      "description": "A feminist epic fantasy with dragons, magic, and political intrigue. A standalone story of heroism and legacy."
+    },
+    {
+      "id": "40",
+      "title": "The Art of War",
+      "author": "Sun Tzu",
+      "genre": "Philosophy",
+      "year": -500,
+      "rating": 5,
+      "pages": 273,
+      "description": "Ancient treatise on military strategy, leadership, and tactics. Timeless principles applicable to conflict, management, and personal strategy."
+    },
+    {
+      "id": "1756262830353",
+      "title": "book",
+      "author": "author",
+      "genre": "genre",
+      "year": 2001,
+      "rating": "2",
+      "pages": 201,
+      "description": "this is a description"
+    },
+    {
+      "id": "1756263221368",
+      "title": "asdf",
+      "author": "asdf",
+      "genre": "asdf",
+      "year": 123,
+      "rating": 1,
+      "pages": 123,
+      "description": "asdf1234"
+    },
+    {
+      "id": "1756263592003",
+      "title": "title1",
+      "author": "author1",
+      "genre": "musical",
+      "year": 1929,
+      "rating": 2,
+      "pages": 234,
+      "description": "12341234"
+    },
+    {
+      "id": "1756263597641",
+      "title": "bok2",
+      "author": "asdf",
+      "genre": "asdf",
+      "year": 123,
+      "rating": 2,
+      "pages": 213,
+      "description": "adsf"
+    },
+    {
+      "id": "1756263602535",
+      "title": "asdf",
+      "author": "asdf",
+      "genre": "234",
+      "year": 234,
+      "rating": 2,
+      "pages": 3,
+      "description": "1234"
+    },
+    {
+      "id": "1756266744741",
+      "title": "this book",
+      "author": "is a suggestion",
+      "genre": "from me",
+      "year": 2004,
+      "rating": 3,
+      "pages": 3,
+      "description": "3"
+    },
+    {
+      "id": "1756267755185",
+      "title": "asdf",
+      "author": "asdf",
+      "genre": "asdf",
+      "year": 234,
+      "rating": 4,
+      "pages": 4,
+      "description": "4"
+    }
+  ]
+}
