@@ -1,75 +1,102 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ onLogin }) {
+function Login({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setLoading(true);
 
         try {
-            const res = await fetch(`http://localhost:4000/users?username=${username}`);
-            const users = await res.json();
+            const res = await axios.post("http://localhost:5000/users/login", {
+                username,
+                password
+            });
 
-            const user = users.find((u) => u.password === password);
+            if (res.data.token && res.data.user) {
+                localStorage.setItem("token", res.data.token);
 
-            if (user) {
-                onLogin(user);
-                localStorage.setItem("user", JSON.stringify(user));
+                onLogin(res.data.user);
 
-                if (user.role === "admin") {
+                console.log("✅ Login successful", res.data.user);
+
+                if (res.data.user.role === 'admin') {
+                    console.log("Admin user detected, redirecting to admin dashboard");
                     navigate("/admin");
                 } else {
-                    navigate("/home"); 
+                    console.log("Regular user detected, redirecting to home");
+                    navigate("/home");
                 }
-            } else {
-                alert("Invalid username or password");
             }
-        } catch (error) {
-            console.error("Login error:", error);
-            alert("Something went wrong. Please try again.");
+        } catch (err) {
+            console.error("Login error:", err);
+            setError(err.response?.data?.message || "Login failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-100">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80 p-6 bg-white rounded shadow">
-                <h1 className="text-2xl font-bold text-center mb-4 text-black">
-                    Welcome to Reading Tracker
-                </h1>
+        <div className="min-h-screen bg-green-100 flex items-center justify-center">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Login</h2>
 
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="border px-2 py-1 rounded"
-                />
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {error}
+                    </div>
+                )}
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border px-2 py-1 rounded"
-                />
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            required
+                        />
+                    </div>
 
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                    Login
-                </button>
+                    <div>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            required
+                        />
+                    </div>
 
-                <p className="text-center text-sm mt-2 text-black">
-                    Don't have an account?{" "}
-                    <a href="/signup" className="font-semibold hover:underline">
-                        Sign Up
-                    </a>
-                </p>
-            </form>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+                    >
+                        {loading ? "Logging in..." : "Login"}
+                    </button>
+                </form>
+
+                <div className="mt-4 text-center">
+                    <p className="text-gray-600">
+                        Don't have an account?{" "}
+                        <a href="/signup" className="text-green-500 hover:underline">
+                            Sign up
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }
+
+export default Login;

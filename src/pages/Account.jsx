@@ -43,33 +43,40 @@ export default function Account({ user, onUpdate, onLogout }) {
 
     const handleSave = async () => {
         try {
-            const updatedData = {
-                ...currentUser,
+            const updateData = {
                 username: formData.username,
                 email: formData.email,
-                age: formData.age,
-                gender: formData.gender,
+                age: formData.age || '',
+                gender: formData.gender || ''
             };
-            if (formData.password) updatedData.password = formData.password;
 
-            const res = await fetch(`http://localhost:4000/users/${currentUser.id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedData),
+            if (formData.password && formData.password.trim() !== '') {
+                updateData.password = formData.password;
+            }
+
+            const res = await fetch(`http://localhost:5000/users/${currentUser.id}/simple-update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updateData),
             });
 
-            if (!res.ok) throw new Error(`Failed to update user. Status: ${res.status}`);
+            if (!res.ok) {
+                const errorData = await res.text();
+                throw new Error(`Update failed. Status: ${res.status}`);
+            }
 
             const updatedUser = await res.json();
-            console.log("User updated:", updatedUser);
             setCurrentUser(updatedUser);
             localStorage.setItem("user", JSON.stringify(updatedUser));
             if (onUpdate) onUpdate(updatedUser);
             setEditingFields({});
-            alert("User updated successfully!");
+            setFormData(prev => ({ ...prev, password: '' }));
+            alert("Account updated successfully!");
         } catch (err) {
-            console.error("Error saving user data:", err);
-            alert("Failed to save user. Check console for details.");
+            console.error("Account update error:", err);
+            alert(`Failed to update account: ${err.message}`);
         }
     };
 

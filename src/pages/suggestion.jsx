@@ -22,21 +22,36 @@ export default function Suggestion({ user }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const token = localStorage.getItem("token"); 
+        if (!token) {
+            alert("You must be logged in to suggest a book!");
+            return;
+        }
+
+        const payload = {
+            ...formData,
+            year: Number(formData.year) 
+        };
+
         try {
-            await fetch("http://localhost:4003/requests", {
+            const res = await fetch("http://localhost:5000/requests", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(payload),
             });
 
-            alert("Book suggestion submitted ✅");
-
-            setFormData({
-                title: "",
-                author: "",
-                year: "",
-                genre: "",
-            });
+            if (res.status === 201) {
+                alert("Book suggestion submitted ✅");
+                setFormData({ title: "", author: "", year: "", genre: "" });
+            } else if (res.status === 401) {
+                alert("You are not authorized. Please log in again.");
+            } else {
+                const data = await res.json();
+                alert(`Failed: ${data.message || 'Check the input.'}`);
+            }
         } catch (error) {
             console.error("Error submitting suggestion:", error);
             alert("Something went wrong ❌");

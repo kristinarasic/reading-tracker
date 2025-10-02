@@ -7,9 +7,21 @@ export default function AdminUsers({ user }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:4000/users")
+        const token = localStorage.getItem('token');
+
+        fetch("http://localhost:5000/users", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setUsers(data));
+            .then((data) => {
+                const users = data.users || data;
+                setUsers(users);
+            })
+            .catch((error) => {
+                console.error('Error fetching users:', error);
+            });
     }, []);
 
     const handleReport = (user) => {

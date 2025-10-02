@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/SideBar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { booksAPI, usersAPI } from "../utils/api";
 
 export default function Library({ user, onUpdate }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -9,27 +10,165 @@ export default function Library({ user, onUpdate }) {
     const [currentUserData, setCurrentUserData] = useState(null);
     const [filter, setFilter] = useState("currentlyReading");
     const [hoveredBook, setHoveredBook] = useState(null);
+    const [refreshAttempted, setRefreshAttempted] = useState(false);
+    const [booksLoading, setBooksLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:4001/books")
-            .then((res) => res.json())
-            .then((data) => setBooksData(data))
-            .catch((err) => console.error("Error fetching books:", err));
+     
+        const fetchAllBooks = async () => {
+            try {
+                setBooksLoading(true);
+                const response = await booksAPI.getAll({ limit: 1000 });
+                const books = response.data.books || [];
+                setBooksData(books);
+
+             
+                setRefreshAttempted(false);
+            } catch (err) {
+                console.error("Error fetching books:", err);
+            } finally {
+                setBooksLoading(false);
+            }
+        };
+
+        fetchAllBooks();
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:4000/users")
-            .then((res) => res.json())
-            .then((data) => {
-                const current = data.find((u) => u.id === user.id);
-                setCurrentUserData(current);
-            })
-            .catch((err) => console.error("Error fetching users:", err));
+        const fetchCurrentUser = async () => {
+            try {
+                const response = await usersAPI.getById(user.id);
+                setCurrentUserData(response.data);
+            } catch (err) {
+                console.error("Error fetching user data with API, trying fallback:", err);
+
+           
+                try {
+                    const allUsersResponse = await usersAPI.getAll();
+                    const users = allUsersResponse.data.users || allUsersResponse.data || [];
+                    const current = users.find((u) => u.id === user.id);
+
+                    if (current) {
+                        setCurrentUserData(current);
+                    } else {
+                        console.error("User not found in fallback method either");
+                       
+                        setCurrentUserData(user);
+                    }
+                } catch (fallbackErr) {
+                    console.error("Fallback method also failed:", fallbackErr);
+                
+                    setCurrentUserData(user);
+                }
+            }
+        };
+
+        if (user.id) {
+            fetchCurrentUser();
+        }
     }, [user]);
 
-    if (!currentUserData) return <div className="pt-16 px-4">Loading user data...</div>;
+   
+    useEffect(() => {
+        if (user && currentUserData && user.id === currentUserData.id) {
+          
+            const userPropHasMoreData =
+                (user.currentlyReading?.length || 0) !== (currentUserData.currentlyReading?.length || 0) ||
+                (user.wantToRead?.length || 0) !== (currentUserData.wantToRead?.length || 0) ||
+                (user.finished?.length || 0) !== (currentUserData.finished?.length || 0);
 
-    const getBookById = (id) => booksData.find((b) => b.id.toString() === id);
+            if (userPropHasMoreData) {
+                setCurrentUserData(user);
+            }
+        }
+    }, [user, currentUserData]);
+
+
+    useEffect(() => {
+        const cleanupStaleBooks = async () => {
+            if (!currentUserData || !refreshAttempted || booksData.length === 0) return;
+
+            const allBookIds = booksData.map(b => b.id.toString());
+            let hasStaleBooks = false;
+            const updatedUser = { ...currentUserData };
+
+
+            ['currentlyReading', 'wantToRead', 'finished'].forEach(listName => {
+                if (updatedUser[listName]) {
+                    const originalLength = updatedUser[listName].length;
+                    updatedUser[listName] = updatedUser[listName].filter(item => {
+                        const exists = allBookIds.includes(item.bookId);
+                        if (!exists) {
+                            console.warn(`Removing stale book reference: ${item.bookId} from ${listName}`);
+                        }
+                        return exists;
+                    });
+                    if (updatedUser[listName].length !== originalLength) {
+                        hasStaleBooks = true;
+                    }
+                }
+            });
+
+            if (hasStaleBooks) {
+                console.log('Cleaning up stale book references from user library');
+                setCurrentUserData(updatedUser);
+                onUpdate(updatedUser);
+
+                try {
+                    const token = localStorage.getItem('token');
+                    await fetch(`http://localhost:5000/users/${user.id}/reading-lists`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            currentlyReading: updatedUser.currentlyReading,
+                            wantToRead: updatedUser.wantToRead,
+                            finished: updatedUser.finished
+                        }),
+                    });
+                } catch (error) {
+                    console.error("Error cleaning up stale books on backend:", error);
+                }
+            }
+        };
+
+        if (booksData.length > 0 && refreshAttempted && currentUserData) {
+            cleanupStaleBooks();
+        }
+    }, [booksData, refreshAttempted, currentUserData, user.id, onUpdate]);
+
+    if (!currentUserData) return <div className="pt-16 px-4">Loading user data...</div>;
+    if (booksLoading) return <div className="pt-16 px-4">Loading books...</div>;
+
+    const getBookById = (id) => {
+        const book = booksData.find((b) => b.id.toString() === id);
+
+
+        if (!book && !refreshAttempted && booksData.length > 0) {
+            console.warn(`Book with ID ${id} not found in ${booksData.length} books. Scheduling refresh...`);
+       
+            setTimeout(() => {
+                setRefreshAttempted(true);
+                const fetchAllBooks = async () => {
+                    try {
+                        const response = await booksAPI.getAll({ limit: 1000 });
+                        const books = response.data.books || [];
+                        setBooksData(books);
+                    } catch (err) {
+                        console.error("Error refreshing books:", err);
+                    }
+                };
+                fetchAllBooks();
+            }, 0);
+        } else if (!book && refreshAttempted) {
+            console.warn(`Book with ID ${id} not found even after refresh. This book may have been deleted.`);
+        }
+
+        return book;
+    };
+
     const filteredBooks = currentUserData[filter]
         .map((item) => getBookById(item.bookId))
         .filter(Boolean);
@@ -44,10 +183,18 @@ export default function Library({ user, onUpdate }) {
         onUpdate(updatedUser);
 
         try {
-            await fetch(`http://localhost:4000/users/${user.id}`, {
+            const token = localStorage.getItem('token');
+            await fetch(`http://localhost:5000/users/${user.id}/reading-lists`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedUser),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentlyReading: updatedUser.currentlyReading,
+                    wantToRead: updatedUser.wantToRead,
+                    finished: updatedUser.finished
+                }),
             });
         } catch (error) {
             console.error("Error updating user:", error);
@@ -70,10 +217,18 @@ export default function Library({ user, onUpdate }) {
         onUpdate(updatedUser);
 
         try {
-            await fetch(`http://localhost:4000/users/${user.id}`, {
+            const token = localStorage.getItem('token');
+            await fetch(`http://localhost:5000/users/${user.id}/reading-lists`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedUser),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentlyReading: updatedUser.currentlyReading,
+                    wantToRead: updatedUser.wantToRead,
+                    finished: updatedUser.finished
+                }),
             });
         } catch (error) {
             console.error("Error updating user:", error);
@@ -112,7 +267,7 @@ export default function Library({ user, onUpdate }) {
                                 className="relative flex flex-col items-stretch"
                             >
                                 <Link
-                                    to={`/book/${book.id}`}
+                                    to={`/book/${encodeURIComponent(book.id)}`}
                                     className="bg-white border-2 border-gray-400 rounded-lg shadow p-4 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300"
                                 >
                                     <h3 className="text-lg font-bold">{book.title}</h3>

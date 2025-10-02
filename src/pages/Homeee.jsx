@@ -18,23 +18,29 @@ export default function Home({ user, onLogout }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:4001/books")
+    fetch("http://localhost:5000/books")
       .then(res => res.json())
       .then(data => {
         console.log("Books fetched:", data);
-        const sorted = data.sort((a, b) => b.rating - a.rating);
+
+        const books = data.books || data;
+        const sorted = books.sort((a, b) => b.rating - a.rating);
         setTopBooks(sorted.slice(0, 3));
 
         if (user.currentlyReading && user.currentlyReading.length > 0) {
           const bookId = user.currentlyReading[0].bookId;
-          const book = data.find(b => b.id === bookId);
 
-          console.log("Looking for bookId:", bookId, "Found:", book);
+          const book = books.find(b => b.id === bookId);
 
-          if (book) setCurrentBook(book);
+          if (book) {
+            setCurrentBook(book);
+            console.log("Found currentBook:", book);
+          } else {
+            console.log("No matching book for currentlyReading:", bookId);
+          }
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching books:", err));
   }, [user]);
 
 
@@ -89,7 +95,7 @@ export default function Home({ user, onLogout }) {
                 📖 Keep Reading!
               </div>
               <Link
-                to={`/book/${book.id}`}
+                to={`/book/${encodeURIComponent(book.id)}`}
                 className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
                 <span className="bg-yellow-500 text-black px-4 py-2 rounded font-semibold shadow-lg hover:bg-yellow-400 cursor-pointer">

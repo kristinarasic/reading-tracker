@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Sidebar from "../components/SideBar";
 import Header from "../components/Header";
+import { booksAPI } from "../utils/api";
 
 export default function Book({ user, onUpdate }) {
-    const { bookId } = useParams();
+    const { bookId: rawBookId } = useParams();
+    const bookId = decodeURIComponent(rawBookId);
     const navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [similarBooks, setSimilarBooks] = useState([]);
@@ -13,24 +15,68 @@ export default function Book({ user, onUpdate }) {
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:4001/books")
-            .then(res => res.json())
-            .then(data => {
-                const selected = data.find(b => b.id.toString() === bookId);
-                if (!selected) {
+        const fetchBookData = async () => {
+            try {
+            
+                const bookResponse = await booksAPI.getById(bookId);
+                const selectedBook = bookResponse.data;
+
+                if (!selectedBook) {
+                    console.error(`Book with ID ${bookId} not found`);
                     navigate("/home");
                     return;
                 }
-                setBook(selected);
 
-                const similar = data
-                    .filter(b => b.genre === selected.genre && b.id !== selected.id)
+                setBook(selectedBook);
+
+             
+                const allBooksResponse = await booksAPI.getAll({
+                    limit: 1000, 
+                    genre: selectedBook.genre 
+                });
+
+                const allBooks = allBooksResponse.data.books || [];
+                const similar = allBooks
+                    .filter(b => b.genre === selectedBook.genre && b.id && b.id !== selectedBook.id)
                     .sort((a, b) => b.rating - a.rating)
                     .slice(0, 3);
 
                 setSimilarBooks(similar);
-            })
-            .catch(err => console.error("Error fetching books:", err));
+
+            } catch (err) {
+                console.error("Error fetching book data:", err);
+             
+                try {
+                    const response = await booksAPI.getAll({ limit: 1000 });
+                    const books = response.data.books || [];
+
+                    const selected = books.find(b => {
+                        if (!b.id) return false;
+                        return b.id.toString() === bookId.toString();
+                    });
+
+                    if (!selected) {
+                        console.error(`Book with ID ${bookId} not found in fallback`);
+                        navigate("/home");
+                        return;
+                    }
+
+                    setBook(selected);
+
+                    const similar = books
+                        .filter(b => b.genre === selected.genre && b.id && b.id !== selected.id)
+                        .sort((a, b) => b.rating - a.rating)
+                        .slice(0, 3);
+
+                    setSimilarBooks(similar);
+                } catch (fallbackErr) {
+                    console.error("Fallback fetch also failed:", fallbackErr);
+                    navigate("/home");
+                }
+            }
+        };
+
+        fetchBookData();
     }, [bookId, navigate]);
 
     useEffect(() => {
@@ -69,12 +115,23 @@ export default function Book({ user, onUpdate }) {
         setShowStatusDropdown(false);
 
         try {
-            const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`http://localhost:5000/users/${user.id}/reading-lists`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedUser),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentlyReading: updatedUser.currentlyReading,
+                    wantToRead: updatedUser.wantToRead,
+                    finished: updatedUser.finished
+                }),
             });
-            if (!res.ok) throw new Error("Failed to update user data on server");
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || "Failed to update user data on server");
+            }
         } catch (err) {
             console.error(err);
             alert("Could not update user library. Try again.");
@@ -95,12 +152,23 @@ export default function Book({ user, onUpdate }) {
         setShowStatusDropdown(false);
 
         try {
-            const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`http://localhost:5000/users/${user.id}/reading-lists`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedUser),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentlyReading: updatedUser.currentlyReading,
+                    wantToRead: updatedUser.wantToRead,
+                    finished: updatedUser.finished
+                }),
             });
-            if (!res.ok) throw new Error("Failed to remove book");
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || "Failed to remove book");
+            }
         } catch (err) {
             console.error(err);
             alert("Could not remove book. Try again.");
@@ -188,7 +256,7 @@ export default function Book({ user, onUpdate }) {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
                     {similarBooks.map(b => (
-                        <Link key={b.id} to={`/book/${b.id}`}>
+                        <Link key={b.id} to={`/book/${encodeURIComponent(b.id)}`}>
                             <div className="bg-white border-2 border-gray-400 rounded-lg shadow p-4 w-52 h-64 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
                                 <div>
                                     <h3 className="text-md font-bold text-gray-800">{b.title}</h3>

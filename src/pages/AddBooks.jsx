@@ -33,20 +33,38 @@ export default function AddBooks() {
             pages: Number(bookData.pages),
         };
 
-        fetch("http://localhost:4001/books", {
+        console.log('Sending new book data:', newBook);
+
+        const token = localStorage.getItem('token');
+
+        fetch("http://localhost:5000/books", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify(newBook),
         })
             .then((res) => {
-                if (!res.ok) throw new Error("Failed to add book");
+                console.log('Response status:', res.status);
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        console.error('Backend error:', errorData);
+                        throw new Error(`Failed to add book: ${errorData.message || 'Unknown error'}`);
+                    });
+                }
                 return res.json();
             })
-            .then(() => {
+            .then((savedBook) => {
+                console.log('Book saved successfully:', savedBook);
+                localStorage.setItem('bookAdded', 'true'); 
                 alert("Book added successfully!");
                 window.history.back();
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error('Error adding book:', err);
+                alert(`Failed to add book: ${err.message}`);
+            });
     };
 
     return (

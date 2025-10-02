@@ -20,7 +20,6 @@ export default function App() {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-
   const handleLogin = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
@@ -29,6 +28,7 @@ export default function App() {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   function ProtectedRoute({ children, role }) {

@@ -15,9 +15,18 @@ export default function ReviewRequests({ user }) {
     });
 
     useEffect(() => {
-        fetch("http://localhost:4003/requests")
+        const token = localStorage.getItem('token');
+
+        fetch("http://localhost:5000/requests", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setRequests(data))
+            .then((data) => {
+                const requests = data.requests || data;
+                setRequests(requests);
+            })
             .catch((err) => console.error("Error fetching requests:", err));
     }, []);
 
@@ -54,14 +63,22 @@ export default function ReviewRequests({ user }) {
         };
 
         try {
-            await fetch("http://localhost:4001/books", {
+            const token = localStorage.getItem('token');
+
+            await fetch("http://localhost:5000/books", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(newBook),
             });
 
-            await fetch(`http://localhost:4003/requests/${req.id}`, {
+            await fetch(`http://localhost:5000/requests/${req.id}`, {
                 method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             });
 
             alert("Book added and request removed ✅");

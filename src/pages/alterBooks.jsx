@@ -5,10 +5,57 @@ export default function AdminBooks() {
     const [selectedBookId, setSelectedBookId] = useState("");
     const [bookData, setBookData] = useState(null);
 
-    useEffect(() => {
-        fetch("http://localhost:4001/books")
+    const fetchBooks = () => {
+        const token = localStorage.getItem('token');
+
+        fetch("http://localhost:5000/books", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setBooks(data));
+            .then((data) => {
+               
+                const books = data.books || data;
+                setBooks(books);
+                console.log(`Loaded ${books.length} books`);
+            })
+            .catch((error) => {
+                console.error('Error fetching books:', error);
+            });
+    };
+
+    useEffect(() => {
+        fetchBooks();
+    }, []);
+
+
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'bookAdded') {
+                console.log('Book added event detected, refreshing list...');
+                fetchBooks();
+                localStorage.removeItem('bookAdded'); 
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+
+        const handleVisibilityChange = () => {
+            if (!document.hidden && localStorage.getItem('bookAdded')) {
+                console.log('Page became visible and bookAdded flag found, refreshing...');
+                fetchBooks();
+                localStorage.removeItem('bookAdded');
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
     }, []);
 
     const handleSelect = (e) => {
@@ -25,15 +72,41 @@ export default function AdminBooks() {
     const handleSave = () => {
         if (!bookData) return;
 
-        fetch(`http://localhost:4001/books/${bookData.id}`, {
+        const token = localStorage.getItem('token');
+
+        const bookDataToSend = {
+            ...bookData,
+            year: Number(bookData.year),
+            rating: Number(bookData.rating),
+            pages: Number(bookData.pages)
+        };
+
+        console.log('Sending book data:', bookDataToSend);
+
+        fetch(`http://localhost:5000/books/${bookData.id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(bookData),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(bookDataToSend),
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok) {
+                    return res.json().then(errorData => {
+                        console.error('Backend error:', errorData);
+                        throw new Error(`HTTP error! status: ${res.status}, message: ${errorData.message || 'Unknown error'}`);
+                    });
+                }
+                return res.json();
+            })
             .then((updatedBook) => {
                 setBooks(books.map((b) => (b.id === updatedBook.id ? updatedBook : b)));
                 alert(`Book "${updatedBook.title}" updated successfully!`);
+            })
+            .catch((error) => {
+                console.error('Error updating book:', error);
+                alert(`Failed to update book: ${error.message}`);
             });
     };
 
